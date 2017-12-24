@@ -9,6 +9,12 @@ import { Component } from "@angular/core";
                             {{color}}
                         </li>
                     </ul>
+                    <form>
+                        <label for="new-color-input">New Color:</label>
+                        <input type="text" id="new-color-input" 
+                            name="newColor" [(ngModel)]="newColor">
+                    </form>
+                    <button type="button" (click)="addColor()">Add Color</button>
                 </div> `,
 })
 export class AppComponent {
@@ -18,5 +24,13 @@ export class AppComponent {
     public colors: string[] = [
         "red", "white", "green", "orange", "blue", 
     ];
+
+    
+    public newColor: string = "";
+
+    public addColor() {
+        this.colors.push(this.newColor);
+        this.newColor = "";
+    }
 
 }
