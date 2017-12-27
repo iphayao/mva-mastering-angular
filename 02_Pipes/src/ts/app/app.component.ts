@@ -17,8 +17,9 @@ import { Component } from "@angular/core";
                     </tr>
                 </tbody>
             </table>
-            <button type="button" (click)="prevPage()">Prev</button>
+            <button #prevButton type="button" (click)="prevPage()">Prev</button>
             <button type="button" (click)="nextPage()">Next</button>
+            <div>{{ prevButton.parentNode.innerHTML | json }}</div>
             `,
 })
 export class AppComponent {
