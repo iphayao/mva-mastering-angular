@@ -2,20 +2,65 @@ import { Component } from "@angular/core";
 
 @Component({
     selector: "main",
-    template: ` <div>
-                <span>{{message | lowercase}}</span><br>
-                <input type="text" [(ngModel)]="message">
-                <div>{{someNumber | number:'2.2-2'}}</div>
-                <div>{{someDate | date:'HH:mm:ss'}}</div>
-                <div>{{someCurrency | currency:'EUR':true:'1.0-0'}}</div>
-            </div>`,
+    template: `
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let person of people | slice:startPerson:endPerson">
+                        <td>{{person.fn}}</td>
+                        <td>{{person.ln}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" (click)="prevPage()">Prev</button>
+            <button type="button" (click)="nextPage()">Next</button>
+            `,
 })
 export class AppComponent {
 
-    public message: string = "Hello World!";
-    
-    public someNumber: number = 3.678345;
-    public someDate: Date = new Date();
-    public someCurrency: number = 34.56;
+    public currentPage: number = 0;
+    public pageLength: number = 3;
+
+    public get startPerson(): number {
+        return this.currentPage * this.pageLength;
+    }
+
+    public get endPerson(): number {
+        return (this.currentPage + 1) * this.pageLength;
+    }
+
+    public people: any[] = [
+        { fn: "John", ln:"Smith" },
+        { fn: "James", ln: "Smith" },
+        { fn: "John", ln: "Thomas" },
+        { fn: "James", ln: "Thomas" },
+        { fn: "Jane", ln: "Doe" },
+        { fn: "Tim", ln: "Johnson" },
+        { fn: "Abby", ln: "Peters" },
+        { fn: "Bob", ln: "Simmons" }
+    ]
+
+    prevPage() {
+        if(this.currentPage > 0){
+            this.currentPage--;
+        }
+    }
+
+    nextPage() {
+        let pages = this.people.length / this.pageLength;
+
+        if(this.people.length % this.pageLength > 0) {
+            pages++;
+        }
+
+        if(this.currentPage < pages){
+            this.currentPage++;
+        }
+    }
 
 }
